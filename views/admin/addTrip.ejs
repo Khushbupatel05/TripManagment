@@ -1,0 +1,114 @@
+<%- include('../partials/admin-start') %>
+
+<div class="container-fluid px-4 py-3">
+  <div class="page-header-row mb-4">
+    <div>
+      <h4 class="page-header-title">Add New Trip</h4>
+      <p class="page-header-sub">Fill in the details below to create a new trip</p>
+    </div>
+    <a href="/admin/trips" class="btn btn-outline-secondary rounded-pill px-4">
+      <i class="bi bi-arrow-left me-2"></i>Back to Trips
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Form -->
+    <div class="col-12 col-xl-8">
+      <div class="content-card">
+        <form action="/admin/addTrip" method="POST" enctype="multipart/form-data" novalidate>
+          <div class="row g-3">
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Trip Title <span class="text-danger">*</span></label>
+              <input type="text" name="title" class="form-control form-control-lg"
+                placeholder="e.g. Magical Bali Escape" maxlength="100" required/>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Destination <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-geo-alt-fill text-primary"></i></span>
+                <input type="text" name="destination" class="form-control"
+                  placeholder="e.g. Bali, Indonesia" required/>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label fw-semibold">Price (USD) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" name="price" class="form-control"
+                  placeholder="0" min="0" step="0.01" required/>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label fw-semibold">Duration <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-clock text-primary"></i></span>
+                <input type="text" name="duration" class="form-control"
+                  placeholder="e.g. 7 Days" required/>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+              <textarea name="description" class="form-control" rows="5"
+                placeholder="Describe the trip highlights, inclusions, and what makes it special…" required></textarea>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">Status</label>
+              <select name="status" class="form-select">
+                <option value="active">🟢 Active</option>
+                <option value="inactive">🔴 Inactive</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Trip Image <span class="text-muted fw-normal">(optional · max 5 MB)</span></label>
+              <div class="upload-area" id="uploadArea">
+                <input type="file" name="image" id="imageInput" class="upload-input" accept="image/*"/>
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                  <i class="bi bi-cloud-upload upload-icon"></i>
+                  <p class="mb-1 fw-semibold">Drop image here or click to browse</p>
+                  <p class="text-muted small mb-0">JPEG, PNG, GIF, WEBP</p>
+                </div>
+                <div class="upload-preview" id="uploadPreview" style="display:none;">
+                  <img id="previewImg" src="" alt="Preview"/>
+                  <button type="button" class="upload-remove" id="removeImage">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.row -->
+
+          <div class="form-actions mt-4">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+              <i class="bi bi-plus-circle me-2"></i>Create Trip
+            </button>
+            <a href="/admin/trips" class="btn btn-outline-secondary btn-lg rounded-pill px-4">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tips sidebar -->
+    <div class="col-12 col-xl-4">
+      <div class="content-card tips-card">
+        <h6 class="tips-title"><i class="bi bi-lightbulb-fill me-2 text-warning"></i>Tips</h6>
+        <ul class="tips-list">
+          <li>Use a catchy title that captures the essence of the trip.</li>
+          <li>Specify destination clearly — City, Country works best.</li>
+          <li>Duration like "7 Days / 6 Nights" is more descriptive.</li>
+          <li>A high-quality landscape image (16:9) looks best.</li>
+          <li>Keep the description engaging — highlight the top experiences!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/admin-end') %>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body class="client-body">
+
+<!-- Navbar -->
+<nav class="client-nav">
+  <div class="container">
+    <div class="client-nav-inner">
+      <div class="client-logo">
+        <i class="bi bi-compass-fill"></i>
+        <span>TripAdmin</span>
+      </div>
+      <a href="/auth/login" class="btn btn-primary rounded-pill px-4">
+        <i class="bi bi-lock-fill me-2"></i>Admin Login
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="client-hero">
+  <div class="client-hero-bg"></div>
+  <div class="client-hero-overlay"></div>
+  <div class="container">
+    <div class="client-hero-content">
+      <span class="hero-badge">Trip planning made simple</span>
+      <h1 class="client-hero-title">Discover the world with TripAdmin</h1>
+      <p class="client-hero-sub">Browse curated travel experiences, manage your trips easily, and start planning your next adventure from one beautiful destination.</p>
+      <div class="hero-actions">
+        <a href="/auth/login" class="btn btn-primary btn-lg rounded-pill">Admin Login</a>
+        <a href="#featured" class="btn btn-outline-light btn-lg rounded-pill">Browse Trips</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="client-features" id="featured">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-card-icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <h3 class="feature-card-title">Beautiful destinations</h3>
+          <p class="feature-card-text">Explore top travel spots around the globe with inspiring trip packages and destination planning.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-card-icon"><i class="bi bi-calendar3"></i></div>
+          <h3 class="feature-card-title">Easy booking</h3>
+          <p class="feature-card-text">Keep everything organized with a clean interface designed for fast booking and management.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-card-icon"><i class="bi bi-heart-fill"></i></div>
+          <h3 class="feature-card-title">Smart trip control</h3>
+          <p class="feature-card-text">Track active trips, update itineraries, and enjoy a seamless admin dashboard experience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="client-static-trips">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <p class="section-label">Featured Trips</p>
+      <h2 class="section-title">Sample trips you can explore</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <div class="trip-card">
+          <div class="trip-card-img">
+            <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80" alt="Beach Escape"/>
+            <span class="trip-card-duration"><i class="bi bi-clock me-1"></i>7 Days</span>
+          </div>
+          <div class="trip-card-body">
+            <div class="trip-card-dest"><i class="bi bi-geo-alt-fill me-1"></i>Bali, Indonesia</div>
+            <h5 class="trip-card-title">Beach Escape</h5>
+            <p class="trip-card-desc">Relax on golden beaches, explore temples, and enjoy an unforgettable island adventure.</p>
+            <div class="trip-card-footer">
+              <div class="trip-card-price">$1,299</div>
+              <a href="/auth/login" class="btn btn-sm btn-primary rounded-pill px-3">Book Now <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="trip-card">
+          <div class="trip-card-img">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80" alt="Mountain Retreat"/>
+            <span class="trip-card-duration"><i class="bi bi-clock me-1"></i>5 Days</span>
+          </div>
+          <div class="trip-card-body">
+            <div class="trip-card-dest"><i class="bi bi-geo-alt-fill me-1"></i>Swiss Alps</div>
+            <h5 class="trip-card-title">Mountain Retreat</h5>
+            <p class="trip-card-desc">Breathe fresh alpine air, hike scenic trails, and stay in cozy mountain lodges.</p>
+            <div class="trip-card-footer">
+              <div class="trip-card-price">$1,899</div>
+              <a href="/auth/login" class="btn btn-sm btn-primary rounded-pill px-3">Book Now <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="client-footer">
+  <div class="container text-center">
+    <p class="mb-0">© <%= new Date().getFullYear() %> TripAdmin · Built with Node.js &amp; Express</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

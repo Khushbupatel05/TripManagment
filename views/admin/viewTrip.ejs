@@ -1,0 +1,96 @@
+<%- include('../partials/admin-start') %>
+
+<div class="container-fluid px-4 py-3">
+  <div class="page-header-row mb-4">
+    <div>
+      <h4 class="page-header-title">Trip Detail</h4>
+      <p class="page-header-sub">Viewing: <%= trip.title %></p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="/admin/editTrip/<%= trip._id %>" class="btn btn-primary rounded-pill px-4">
+        <i class="bi bi-pencil me-2"></i>Edit
+      </a>
+      <a href="/admin/trips" class="btn btn-outline-secondary rounded-pill px-4">
+        <i class="bi bi-arrow-left me-2"></i>Back
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4 display-flex ">
+    <!-- Image -->
+    <div class="col-12 col-lg-5">
+      <div class="content-card p-0 overflow-hidden">
+        <% if (trip.image) { %>
+          <img src="/uploads/<%= trip.image %>" alt="<%= trip.title %>" class="trip-detail-image"/>
+        <% } else { %>
+          <div class="trip-detail-no-image">
+            <i class="bi bi-image"></i>
+            <p>No image uploaded</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-7">
+      <div class="content-card h-100">
+        <div class="d-flex align-items-start justify-content-between mb-3">
+          <h2 class="trip-detail-title"><%= trip.title %></h2>
+          <span class="badge-status badge-status--<%= trip.status %> ms-3 flex-shrink-0">
+            <%= trip.status %>
+          </span>
+        </div>
+
+        <div class="trip-detail-meta">
+          <div class="detail-meta-item">
+            <i class="bi bi-geo-alt-fill text-primary"></i>
+            <div>
+              <div class="detail-meta-label">Destination</div>
+              <div class="detail-meta-value"><%= trip.destination %></div>
+            </div>
+          </div>
+          <div class="detail-meta-item">
+            <i class="bi bi-currency-dollar text-success"></i>
+            <div>
+              <div class="detail-meta-label">Price</div>
+              <div class="detail-meta-value text-success fw-bold">$<%= trip.price.toLocaleString() %></div>
+            </div>
+          </div>
+          <div class="detail-meta-item">
+            <i class="bi bi-clock-fill text-warning"></i>
+            <div>
+              <div class="detail-meta-label">Duration</div>
+              <div class="detail-meta-value"><%= trip.duration %></div>
+            </div>
+          </div>
+          <div class="detail-meta-item">
+            <i class="bi bi-calendar-fill text-info"></i>
+            <div>
+              <div class="detail-meta-label">Created</div>
+              <div class="detail-meta-value">
+                <%= new Date(trip.createdAt).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr/>
+        <h6 class="fw-bold mb-2">Description</h6>
+        <p class="trip-description-text"><%= trip.description %></p>
+        <hr/>
+
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="/admin/editTrip/<%= trip._id %>" class="btn btn-primary rounded-pill px-4">
+            <i class="bi bi-pencil me-2"></i>Edit Trip
+          </a>
+          <form action="/admin/deleteTrip/<%= trip._id %>?_method=DELETE" method="POST" class="delete-form">
+            <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
+              <i class="bi bi-trash me-2"></i>Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/admin-end') %>

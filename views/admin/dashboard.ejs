@@ -1,0 +1,131 @@
+<%- include('../partials/admin-start') %>
+
+<div class="container-fluid px-4 py-3">
+
+  <!-- Stat cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stat-card stat-card--blue">
+        <div class="stat-icon"><i class="bi bi-map-fill"></i></div>
+        <div class="stat-info">
+          <div class="stat-value"><%= totalTrips %></div>
+          <div class="stat-label">Total Trips</div>
+        </div>
+        <div class="stat-bg-icon"><i class="bi bi-map"></i></div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stat-card stat-card--green">
+        <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+        <div class="stat-info">
+          <div class="stat-value"><%= activeTrips %></div>
+          <div class="stat-label">Active Trips</div>
+        </div>
+        <div class="stat-bg-icon"><i class="bi bi-check-circle"></i></div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stat-card stat-card--orange">
+        <div class="stat-icon"><i class="bi bi-pause-circle-fill"></i></div>
+        <div class="stat-info">
+          <div class="stat-value"><%= inactiveTrips %></div>
+          <div class="stat-label">Inactive Trips</div>
+        </div>
+        <div class="stat-bg-icon"><i class="bi bi-pause-circle"></i></div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="stat-card stat-card--purple">
+        <div class="stat-icon"><i class="bi bi-plus-square-fill"></i></div>
+        <div class="stat-info">
+          <div class="stat-value">
+            <a href="/admin/addTrip" class="stat-action-link">Add Trip</a>
+          </div>
+          <div class="stat-label">Quick Action</div>
+        </div>
+        <div class="stat-bg-icon"><i class="bi bi-plus-square"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent trips -->
+  <div class="content-card">
+    <div class="content-card-header">
+      <div>
+        <h5 class="content-card-title">Recent Trips</h5>
+        <p class="content-card-subtitle">Last 5 added trips</p>
+      </div>
+      <a href="/admin/trips" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+        View All <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <% if (recentTrips.length === 0) { %>
+      <div class="empty-state">
+        <i class="bi bi-map empty-icon"></i>
+        <h6>No trips yet</h6>
+        <p>Start by adding your first trip.</p>
+        <a href="/admin/addTrip" class="btn btn-primary btn-sm rounded-pill px-4">
+          <i class="bi bi-plus me-1"></i> Add Trip
+        </a>
+      </div>
+    <% } else { %>
+    <div class="table-responsive">
+      <table class="table admin-table">
+        <thead>
+          <tr>
+            <th>Trip</th>
+            <th>Destination</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recentTrips.forEach(trip => { %>
+          <tr>
+            <td>
+              <div class="trip-cell">
+                <% if (trip.image) { %>
+                  <img src="/uploads/<%= trip.image %>" alt="" class="trip-thumb"/>
+                <% } else { %>
+                  <div class="trip-thumb-placeholder"><i class="bi bi-image"></i></div>
+                <% } %>
+                <span class="trip-title-cell"><%= trip.title %></span>
+              </div>
+            </td>
+            <td><i class="bi bi-geo-alt text-muted me-1"></i><%= trip.destination %></td>
+            <td class="fw-semibold text-success">$<%= trip.price.toLocaleString() %></td>
+            <td><%= trip.duration %></td>
+            <td><span class="badge-status badge-status--<%= trip.status %>"><%= trip.status %></span></td>
+            <td class="text-muted small">
+              <%= new Date(trip.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) %>
+            </td>
+            <td>
+              <div class="action-btns">
+                <a href="/admin/viewTrip/<%= trip._id %>" class="action-btn action-btn--view" title="View">
+                  <i class="bi bi-eye"></i>
+                </a>
+                <a href="/admin/editTrip/<%= trip._id %>" class="action-btn action-btn--edit" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form action="/admin/deleteTrip/<%= trip._id %>?_method=DELETE" method="POST" class="d-inline delete-form">
+                  <button type="submit" class="action-btn action-btn--delete" title="Delete">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+
+</div>
+
+<%- include('../partials/admin-end') %>

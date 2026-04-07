@@ -1,0 +1,145 @@
+<%- include('../partials/admin-start') %>
+
+<div class="container-fluid px-4 py-3">
+
+  <!-- Page header -->
+  <div class="page-header-row mb-4">
+    <div>
+      <h4 class="page-header-title">Trip Management</h4>
+      <p class="page-header-sub"><%= totalTrips %> trip<%= totalTrips !== 1 ? 's' : '' %> total</p>
+    </div>
+    <a href="/admin/addTrip" class="btn btn-primary rounded-pill px-4">
+      <i class="bi bi-plus-circle me-2"></i>Add New Trip
+    </a>
+  </div>
+
+  <!-- Search & filter -->
+  <div class="content-card mb-4">
+    <form action="/admin/trips" method="GET" class="filter-bar">
+      <div class="filter-search">
+        <i class="bi bi-search filter-search-icon"></i>
+        <input type="text" name="search" class="form-control filter-input"
+          placeholder="Search by destination…" value="<%= search %>"/>
+      </div>
+      <select name="status" class="form-select filter-select">
+        <option value="">All Statuses</option>
+        <option value="active"   <%= statusFilter === 'active'   ? 'selected' : '' %>>Active</option>
+        <option value="inactive" <%= statusFilter === 'inactive' ? 'selected' : '' %>>Inactive</option>
+      </select>
+      <button type="submit" class="btn btn-primary px-4 rounded-pill">
+        <i class="bi bi-funnel me-1"></i>Filter
+      </button>
+      <% if (search || statusFilter) { %>
+        <a href="/admin/trips" class="btn btn-outline-secondary px-4 rounded-pill">
+          <i class="bi bi-x-circle me-1"></i>Clear
+        </a>
+      <% } %>
+    </form>
+  </div>
+
+  <!-- Trips table -->
+  <div class="content-card">
+    <% if (trips.length === 0) { %>
+      <div class="empty-state">
+        <i class="bi bi-map empty-icon"></i>
+        <h6>No trips found</h6>
+        <% if (search || statusFilter) { %>
+          <p>Try adjusting your search or filter.</p>
+          <a href="/admin/trips" class="btn btn-outline-primary btn-sm rounded-pill px-4">Clear Filters</a>
+        <% } else { %>
+          <p>Get started by adding your first trip.</p>
+          <a href="/admin/addTrip" class="btn btn-primary btn-sm rounded-pill px-4">
+            <i class="bi bi-plus me-1"></i>Add Trip
+          </a>
+        <% } %>
+      </div>
+    <% } else { %>
+    <div class="table-responsive">
+      <table class="table admin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Trip</th>
+            <th>Destination</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% trips.forEach((trip, i) => { %>
+          <tr>
+            <td class="text-muted small"><%= (currentPage - 1) * 8 + i + 1 %></td>
+            <td>
+              <div class="trip-cell">
+                <% if (trip.image) { %>
+                  <img src="/uploads/<%= trip.image %>" alt="" class="trip-thumb"/>
+                <% } else { %>
+                  <div class="trip-thumb-placeholder"><i class="bi bi-image"></i></div>
+                <% } %>
+                <span class="trip-title-cell"><%= trip.title %></span>
+              </div>
+            </td>
+            <td><i class="bi bi-geo-alt text-muted me-1"></i><%= trip.destination %></td>
+            <td class="fw-semibold text-success">$<%= trip.price.toLocaleString() %></td>
+            <td><%= trip.duration %></td>
+            <td><span class="badge-status badge-status--<%= trip.status %>"><%= trip.status %></span></td>
+            <td class="text-muted small">
+              <%= new Date(trip.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) %>
+            </td>
+            <td>
+              <div class="action-btns">
+                <a href="/admin/viewTrip/<%= trip._id %>" class="action-btn action-btn--view" title="View">
+                  <i class="bi bi-eye"></i>
+                </a>
+                <a href="/admin/editTrip/<%= trip._id %>" class="action-btn action-btn--edit" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form action="/admin/deleteTrip/<%= trip._id %>?_method=DELETE" method="POST" class="d-inline delete-form">
+                  <button type="submit" class="action-btn action-btn--delete" title="Delete">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <% if (totalPages > 1) { %>
+    <div class="pagination-wrap">
+      <nav>
+        <ul class="pagination mb-0">
+          <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="/admin/trips?page=<%= currentPage-1 %>&search=<%= search %>&status=<%= statusFilter %>">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          <% for (let p = 1; p <= totalPages; p++) { %>
+            <li class="page-item <%= p === currentPage ? 'active' : '' %>">
+              <a class="page-link" href="/admin/trips?page=<%= p %>&search=<%= search %>&status=<%= statusFilter %>">
+                <%= p %>
+              </a>
+            </li>
+          <% } %>
+          <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="/admin/trips?page=<%= currentPage+1 %>&search=<%= search %>&status=<%= statusFilter %>">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <span class="pagination-info">Page <%= currentPage %> of <%= totalPages %></span>
+    </div>
+    <% } %>
+    <% } %>
+  </div>
+
+</div>
+
+<%- include('../partials/admin-end') %>

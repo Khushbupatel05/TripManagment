@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %> — TripAdmin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <i class="bi bi-compass-fill brand-icon"></i>
+    <span class="brand-text">TripAdmin</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <p class="nav-section-label">Main</p>
+    <a href="/admin/dashboard"
+       class="nav-link-item <%= title === 'Dashboard' ? 'active' : '' %>">
+      <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
+    </a>
+    <a href="/admin/trips"
+       class="nav-link-item <%= ['All Trips'].includes(title) ? 'active' : '' %>">
+      <i class="bi bi-map-fill"></i><span>All Trips</span>
+    </a>
+    <a href="/admin/addTrip"
+       class="nav-link-item <%= title === 'Add New Trip' ? 'active' : '' %>">
+      <i class="bi bi-plus-circle-fill"></i><span>Add Trip</span>
+    </a>
+
+    <p class="nav-section-label mt-3">Account</p>
+    <a href="/auth/logout" class="nav-link-item logout-link">
+      <i class="bi bi-box-arrow-left"></i><span>Logout</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-pill">
+      <div class="admin-avatar"><%= admin.name.charAt(0).toUpperCase() %></div>
+      <div class="admin-info">
+        <div class="admin-name"><%= admin.name %></div>
+        <div class="admin-role">Administrator</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main Wrapper ── -->
+<div class="main-wrapper">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="topbar-title"><%= title %></div>
+    <div class="topbar-right">
+      <span class="topbar-greeting">Hello, <%= admin.name.split(' ')[0] %> 👋</span>
+    </div>
+  </header>
+
+  <!-- Flash messages -->
+  <div class="flash-container px-4 pt-3">
+    <% if (success && success.length > 0) { %>
+      <% success.forEach(msg => { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="bi bi-check-circle-fill me-2"></i><%= msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% }) %>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <% error.forEach(msg => { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i><%= msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <!-- Page Content -->
+  <main class="page-content">

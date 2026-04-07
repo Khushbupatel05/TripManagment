@@ -1,0 +1,137 @@
+<%- include('../partials/admin-start') %>
+
+<div class="container-fluid px-4 py-3">
+  <div class="page-header-row mb-4">
+    <div>
+      <h4 class="page-header-title">Edit Trip</h4>
+      <p class="page-header-sub">Updating: "<%= trip.title %>"</p>
+    </div>
+    <a href="/admin/trips" class="btn btn-outline-secondary rounded-pill px-4">
+      <i class="bi bi-arrow-left me-2"></i>Back to Trips
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Form -->
+    <div class="col-12 col-xl-8">
+      <div class="content-card">
+        <form action="/admin/editTrip/<%= trip._id %>?_method=PUT" method="POST"
+              enctype="multipart/form-data" novalidate>
+          <div class="row g-3">
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Trip Title <span class="text-danger">*</span></label>
+              <input type="text" name="title" class="form-control form-control-lg"
+                value="<%= trip.title %>" maxlength="100" required/>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Destination <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-geo-alt-fill text-primary"></i></span>
+                <input type="text" name="destination" class="form-control"
+                  value="<%= trip.destination %>" required/>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label fw-semibold">Price (USD) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" name="price" class="form-control"
+                  value="<%= trip.price %>" min="0" step="0.01" required/>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label fw-semibold">Duration <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-clock text-primary"></i></span>
+                <input type="text" name="duration" class="form-control"
+                  value="<%= trip.duration %>" required/>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+              <textarea name="description" class="form-control" rows="5" required><%= trip.description %></textarea>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">Status</label>
+              <select name="status" class="form-select">
+                <option value="active"   <%= trip.status === 'active'   ? 'selected' : '' %>>🟢 Active</option>
+                <option value="inactive" <%= trip.status === 'inactive' ? 'selected' : '' %>>🔴 Inactive</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Trip Image</label>
+
+              <% if (trip.image) { %>
+                <div class="current-image-wrap mb-3">
+                  <img src="/uploads/<%= trip.image %>" alt="Current" class="current-image-preview"/>
+                  <div class="current-image-label">
+                    <i class="bi bi-image me-1"></i>Current image — upload a new one to replace it
+                  </div>
+                </div>
+              <% } %>
+
+              <div class="upload-area" id="uploadArea">
+                <input type="file" name="image" id="imageInput" class="upload-input" accept="image/*"/>
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                  <i class="bi bi-cloud-upload upload-icon"></i>
+                  <p class="mb-1 fw-semibold">
+                    <%= trip.image ? 'Upload a replacement image' : 'Drop image here or click to browse' %>
+                  </p>
+                  <p class="text-muted small mb-0">JPEG, PNG, GIF, WEBP · max 5 MB</p>
+                </div>
+                <div class="upload-preview" id="uploadPreview" style="display:none;">
+                  <img id="previewImg" src="" alt="Preview"/>
+                  <button type="button" class="upload-remove" id="removeImage">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.row -->
+
+          <div class="form-actions mt-4">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+              <i class="bi bi-check-circle me-2"></i>Save Changes
+            </button>
+            <a href="/admin/trips" class="btn btn-outline-secondary btn-lg rounded-pill px-4">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Meta & danger zone -->
+    <div class="col-12 col-xl-4">
+      <div class="content-card tips-card">
+        <h6 class="tips-title"><i class="bi bi-info-circle-fill me-2 text-primary"></i>Trip Info</h6>
+        <ul class="tips-list">
+          <li><strong>ID:</strong><br/><span class="font-mono"><%= trip._id %></span></li>
+          <li><strong>Created:</strong><br/>
+            <%= new Date(trip.createdAt).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) %>
+          </li>
+          <li><strong>Last Updated:</strong><br/>
+            <%= new Date(trip.updatedAt).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) %>
+          </li>
+          <li><strong>Status:</strong>
+            <span class="badge-status badge-status--<%= trip.status %> ms-1"><%= trip.status %></span>
+          </li>
+        </ul>
+        <hr/>
+        <form action="/admin/deleteTrip/<%= trip._id %>?_method=DELETE" method="POST" class="delete-form">
+          <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill">
+            <i class="bi bi-trash me-2"></i>Delete this Trip
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/admin-end') %>
